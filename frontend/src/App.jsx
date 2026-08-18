@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { Cpu, Database, Target, UserCheck, BookOpen, Sparkles, Activity } from 'lucide-react';
+import { Cpu, Database, Target, UserCheck, BookOpen, Sparkles } from 'lucide-react';
 import PipelineStudio from './components/PipelineStudio';
 import BatchProcessing from './components/BatchProcessing';
 import BenchmarkView from './components/BenchmarkView';
 import HitlStudio from './components/HitlStudio';
 import GuidelinesViewer from './components/GuidelinesViewer';
 
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || '';
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('studio');
 
-  // Backend API Client Functions
   const handleEnrichSingleItem = async (itemData) => {
     try {
-      const res = await fetch('/api/enrich-item', {
+      const res = await fetch(`${BACKEND_URL}/api/enrich-item`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(itemData)
@@ -52,7 +53,7 @@ export default function App() {
 
   const handleFetchSampleBatch = async (limit = 100) => {
     try {
-      const res = await fetch(`/api/sample-input?limit=${limit}`);
+      const res = await fetch(`${BACKEND_URL}/api/sample-input?limit=${limit}`);
       if (res.ok) {
         return await res.json();
       }
@@ -70,7 +71,7 @@ export default function App() {
 
   const handleProcessBatch = async (items) => {
     try {
-      const res = await fetch('/api/enrich-batch', {
+      const res = await fetch(`${BACKEND_URL}/api/enrich-batch`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(items)
@@ -98,7 +99,7 @@ export default function App() {
 
   const handleFetchBenchmark = async () => {
     try {
-      const res = await fetch('/api/benchmark-evaluation');
+      const res = await fetch(`${BACKEND_URL}/api/benchmark-evaluation`);
       if (res.ok) {
         return await res.json();
       }
@@ -119,7 +120,7 @@ export default function App() {
 
   const handleExportCsv = async (items) => {
     try {
-      const res = await fetch('/api/export-csv', {
+      const res = await fetch(`${BACKEND_URL}/api/export-csv`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(items)
@@ -153,7 +154,6 @@ export default function App() {
 
   return (
     <div>
-      {/* Bespoke Header */}
       <header className="navbar">
         <div className="brand-container">
           <div className="brand-logo-mark">
@@ -164,31 +164,32 @@ export default function App() {
               Unilogic <span>AI</span>
             </div>
             <div style={{ fontSize: '0.72rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span className="status-dot"></span> API Operational • 7 Agents Active
+              <span className="status-dot"></span> API Operational
             </div>
           </div>
         </div>
 
-        <nav className="nav-tabs">
-          <button className={`nav-tab ${activeTab === 'studio' ? 'active' : ''}`} onClick={() => setActiveTab('studio')}>
-            <Cpu size={15} /> Pipeline Studio
-          </button>
-          <button className={`nav-tab ${activeTab === 'batch' ? 'active' : ''}`} onClick={() => setActiveTab('batch')}>
-            <Database size={15} /> Catalog Batch (1k)
-          </button>
-          <button className={`nav-tab ${activeTab === 'benchmark' ? 'active' : ''}`} onClick={() => setActiveTab('benchmark')}>
-            <Target size={15} /> Ground Truth Benchmark
-          </button>
-          <button className={`nav-tab ${activeTab === 'hitl' ? 'active' : ''}`} onClick={() => setActiveTab('hitl')}>
-            <UserCheck size={15} /> HITL Studio
-          </button>
-          <button className={`nav-tab ${activeTab === 'guidelines' ? 'active' : ''}`} onClick={() => setActiveTab('guidelines')}>
-            <BookOpen size={15} /> Guidelines
-          </button>
-        </nav>
+        <div className="nav-tabs-wrapper">
+          <nav className="nav-tabs">
+            <button className={`nav-tab ${activeTab === 'studio' ? 'active' : ''}`} onClick={() => setActiveTab('studio')}>
+              <Cpu size={15} /> Pipeline Studio
+            </button>
+            <button className={`nav-tab ${activeTab === 'batch' ? 'active' : ''}`} onClick={() => setActiveTab('batch')}>
+              <Database size={15} /> Catalog Batch
+            </button>
+            <button className={`nav-tab ${activeTab === 'benchmark' ? 'active' : ''}`} onClick={() => setActiveTab('benchmark')}>
+              <Target size={15} /> Benchmark
+            </button>
+            <button className={`nav-tab ${activeTab === 'hitl' ? 'active' : ''}`} onClick={() => setActiveTab('hitl')}>
+              <UserCheck size={15} /> HITL Queue
+            </button>
+            <button className={`nav-tab ${activeTab === 'guidelines' ? 'active' : ''}`} onClick={() => setActiveTab('guidelines')}>
+              <BookOpen size={15} /> Guidelines
+            </button>
+          </nav>
+        </div>
       </header>
 
-      {/* Main Container */}
       <main className="main-container">
         {activeTab === 'studio' && <PipelineStudio onEnrichItem={handleEnrichSingleItem} />}
         {activeTab === 'batch' && <BatchProcessing onFetchSampleBatch={handleFetchSampleBatch} onProcessBatch={handleProcessBatch} onExportCsv={handleExportCsv} />}
