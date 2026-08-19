@@ -51,10 +51,9 @@ export default function PipelineStudio({ onEnrichItem }) {
     setResult(null);
     setCurrentStep(1);
 
-    // Simulate real-time multi-agent step progression
     for (let step = 1; step <= 7; step++) {
       setCurrentStep(step);
-      await new Promise(r => setTimeout(r, 220));
+      await new Promise(r => setTimeout(r, 200));
     }
 
     try {
@@ -74,29 +73,29 @@ export default function PipelineStudio({ onEnrichItem }) {
   };
 
   return (
-    <div className="animate-slide-up" style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+    <div className="animate-slide-up" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       
-      {/* Header Banner */}
-      <div className="glass-panel" style={{ padding: '24px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      {/* Header Banner - Responsive Stacking */}
+      <div className="glass-panel banner-flex">
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px', flexWrap: 'wrap' }}>
             <Cpu size={24} style={{ color: 'var(--primary)' }} />
-            <h2 style={{ fontSize: '1.5rem', fontWeight: '700' }}>Pipeline Studio</h2>
+            <h2 style={{ fontSize: '1.4rem', fontWeight: '700' }}>Pipeline Studio</h2>
             <span className="badge badge-info">7 AI Agents</span>
           </div>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>
             Transform cryptic, minimal manufacturer rows into complete, 252-column structured commerce records.
           </p>
         </div>
 
-        {/* Preset Selector */}
-        <div style={{ display: 'flex', gap: '8px' }}>
+        {/* Preset Selector - Responsive Group */}
+        <div className="action-group">
           {SAMPLE_PRODUCTS.map((p, idx) => (
             <button
               key={idx}
               className={`nav-tab ${selectedSample === idx ? 'active' : ''}`}
               onClick={() => handleSelectSample(idx)}
-              style={{ fontSize: '0.8rem', padding: '6px 12px' }}
+              style={{ fontSize: '0.78rem', padding: '8px 12px' }}
             >
               Sample {idx + 1}: {p.Mfg_Part_Num}
             </button>
@@ -111,7 +110,7 @@ export default function PipelineStudio({ onEnrichItem }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           
           <div className="glass-panel" style={{ padding: '24px' }}>
-            <h3 style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: '600', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <FileText size={18} style={{ color: 'var(--accent-cyan)' }} />
               Raw Input Record
             </h3>
@@ -123,7 +122,7 @@ export default function PipelineStudio({ onEnrichItem }) {
                   type="text"
                   value={inputForm.Mfg_Part_Num}
                   onChange={(e) => handleInputChange('Mfg_Part_Num', e.target.value)}
-                  style={{ width: '100%', padding: '10px 14px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--glass-border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontFamily: 'var(--font-mono)' }}
+                  style={{ width: '100%', padding: '10px 14px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-sm)', color: '#fff', fontFamily: 'var(--font-mono)' }}
                 />
               </div>
 
@@ -133,7 +132,7 @@ export default function PipelineStudio({ onEnrichItem }) {
                   type="text"
                   value={inputForm.Part_Desc}
                   onChange={(e) => handleInputChange('Part_Desc', e.target.value)}
-                  style={{ width: '100%', padding: '10px 14px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--glass-border)', borderRadius: 'var(--radius-sm)', color: '#fff', fontFamily: 'var(--font-mono)' }}
+                  style={{ width: '100%', padding: '10px 14px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-sm)', color: '#fff', fontFamily: 'var(--font-mono)' }}
                 />
               </div>
 
@@ -144,7 +143,7 @@ export default function PipelineStudio({ onEnrichItem }) {
                     type="text"
                     value={inputForm.E1_Brand}
                     onChange={(e) => handleInputChange('E1_Brand', e.target.value)}
-                    style={{ width: '100%', padding: '8px 12px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--glass-border)', borderRadius: 'var(--radius-sm)', color: '#fff' }}
+                    style={{ width: '100%', padding: '8px 12px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-sm)', color: '#fff' }}
                   />
                 </div>
                 <div>
@@ -153,7 +152,7 @@ export default function PipelineStudio({ onEnrichItem }) {
                     type="text"
                     value={inputForm.Part_Manuf}
                     onChange={(e) => handleInputChange('Part_Manuf', e.target.value)}
-                    style={{ width: '100%', padding: '8px 12px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--glass-border)', borderRadius: 'var(--radius-sm)', color: '#fff' }}
+                    style={{ width: '100%', padding: '8px 12px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-sm)', color: '#fff' }}
                   />
                 </div>
               </div>
@@ -162,7 +161,7 @@ export default function PipelineStudio({ onEnrichItem }) {
                 className="btn btn-primary"
                 onClick={handleRunPipeline}
                 disabled={isProcessing}
-                style={{ marginTop: '8px', padding: '12px' }}
+                style={{ marginTop: '8px', padding: '14px 18px', width: '100%' }}
               >
                 {isProcessing ? <Sparkles className="pulse-glow" size={18} /> : <Play size={18} />}
                 {isProcessing ? 'Processing Through AI Agents...' : 'Execute Enrichment Pipeline'}
@@ -203,18 +202,18 @@ export default function PipelineStudio({ onEnrichItem }) {
                     }}
                   >
                     {isDone ? (
-                      <CheckCircle2 size={18} style={{ color: 'var(--accent-emerald)' }} />
+                      <CheckCircle2 size={18} style={{ color: 'var(--accent-emerald)', flexShrink: 0 }} />
                     ) : isActive ? (
-                      <Sparkles className="pulse-glow" size={18} style={{ color: 'var(--primary)' }} />
+                      <Sparkles className="pulse-glow" size={18} style={{ color: 'var(--primary)', flexShrink: 0 }} />
                     ) : (
-                      <span style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--text-dim)', width: '18px' }}>{s.step}</span>
+                      <span style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--text-muted)', width: '18px', flexShrink: 0 }}>{s.step}</span>
                     )}
 
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: '0.85rem', fontWeight: '600', color: isDone ? '#fff' : isActive ? 'var(--primary)' : 'var(--text-muted)' }}>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: '0.85rem', fontWeight: '600', color: isDone ? '#fff' : isActive ? 'var(--primary)' : 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                         {s.name}
                       </div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-dim)' }}>{s.detail}</div>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis' }}>{s.detail}</div>
                     </div>
                   </div>
                 );
@@ -231,11 +230,11 @@ export default function PipelineStudio({ onEnrichItem }) {
             <div className="animate-slide-up" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
               
               {/* Confidence & Entity Banner */}
-              <div className="glass-panel" style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div className="glass-panel" style={{ padding: '20px 24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
                 <div>
-                  <span className="badge badge-success" style={{ marginBottom: '6px' }}>Enrichment Complete</span>
+                  <span className="badge badge-emerald" style={{ marginBottom: '6px' }}>Enrichment Complete</span>
                   <h3 style={{ fontSize: '1.2rem', fontWeight: '700' }}>{result.MANUFACTURER_NAME}</h3>
-                  <div style={{ fontSize: '0.9rem', color: 'var(--accent-cyan)', fontWeight: '600' }}>
+                  <div style={{ fontSize: '0.88rem', color: 'var(--accent-cyan)', fontWeight: '600' }}>
                     Brand: {result.BRAND_NAME} {result.TRADE_NAME ? `(${result.TRADE_NAME})` : ''}
                   </div>
                 </div>
@@ -262,9 +261,9 @@ export default function PipelineStudio({ onEnrichItem }) {
                         {result.INVOICE_DESC.length} / 40 chars ✓
                       </span>
                     </div>
-                    <div className="code-block" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span>{result.INVOICE_DESC}</span>
-                      <button className="btn btn-secondary" onClick={() => copyToClipboard(result.INVOICE_DESC, 'inv')} style={{ padding: '4px 8px', fontSize: '0.75rem' }}>
+                    <div className="code-block" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{result.INVOICE_DESC}</span>
+                      <button className="btn btn-secondary" onClick={() => copyToClipboard(result.INVOICE_DESC, 'inv')} style={{ padding: '6px 10px', fontSize: '0.75rem', minHeight: 'auto' }}>
                         {copiedField === 'inv' ? <Check size={14} /> : <Copy size={14} />}
                       </button>
                     </div>
@@ -278,7 +277,7 @@ export default function PipelineStudio({ onEnrichItem }) {
                         {result.MOBILE_DESC.length} chars ✓
                       </span>
                     </div>
-                    <div style={{ fontSize: '0.9rem', color: '#fff', fontWeight: '500' }}>
+                    <div style={{ fontSize: '0.88rem', color: '#fff', fontWeight: '500' }}>
                       {result.MOBILE_DESC}
                     </div>
                   </div>
@@ -288,7 +287,7 @@ export default function PipelineStudio({ onEnrichItem }) {
                     <div style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--primary)', marginBottom: '6px' }}>
                       SHORT_DESC (Product Title Formula)
                     </div>
-                    <div style={{ fontSize: '0.95rem', color: '#fff', fontWeight: '600', lineHeight: '1.4' }}>
+                    <div style={{ fontSize: '0.92rem', color: '#fff', fontWeight: '600', lineHeight: '1.4' }}>
                       {result.SHORT_DESC}
                     </div>
                   </div>
@@ -298,7 +297,7 @@ export default function PipelineStudio({ onEnrichItem }) {
                     <div style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--accent-cyan)', marginBottom: '6px' }}>
                       LONG_DESC (Full Technical Specification)
                     </div>
-                    <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
                       {result.LONG_DESC1}
                     </div>
                   </div>
@@ -327,10 +326,10 @@ export default function PipelineStudio({ onEnrichItem }) {
                         if (!lbl && !val) return null;
                         return (
                           <tr key={idx}>
-                            <td style={{ fontWeight: '600', color: 'var(--text-main)' }}>{lbl}</td>
+                            <td style={{ fontWeight: '600', color: 'var(--text-primary)' }}>{lbl}</td>
                             <td style={{ color: 'var(--accent-cyan)' }}>{val}</td>
                             <td>
-                              {uom ? <span className="badge badge-info">{uom}</span> : <span style={{ color: 'var(--text-dim)' }}>—</span>}
+                              {uom ? <span className="badge badge-blue">{uom}</span> : <span style={{ color: 'var(--text-muted)' }}>—</span>}
                             </td>
                           </tr>
                         );
@@ -342,10 +341,10 @@ export default function PipelineStudio({ onEnrichItem }) {
 
             </div>
           ) : (
-            <div className="glass-panel" style={{ padding: '48px 32px', textAlign: 'center', color: 'var(--text-muted)' }}>
-              <Cpu size={48} style={{ color: 'rgba(255,255,255,0.1)', marginBottom: '16px' }} />
-              <h3 style={{ fontSize: '1.2rem', fontWeight: '600', color: '#fff', marginBottom: '8px' }}>Ready for Pipeline Execution</h3>
-              <p style={{ fontSize: '0.9rem', maxWidth: '400px', margin: '0 auto' }}>
+            <div className="glass-panel" style={{ padding: '48px 24px', textAlign: 'center', color: 'var(--text-muted)' }}>
+              <Cpu size={44} style={{ color: 'rgba(255,255,255,0.12)', marginBottom: '16px' }} />
+              <h3 style={{ fontSize: '1.15rem', fontWeight: '600', color: '#fff', marginBottom: '8px' }}>Ready for Pipeline Execution</h3>
+              <p style={{ fontSize: '0.88rem', maxWidth: '380px', margin: '0 auto' }}>
                 Click "Execute Enrichment Pipeline" to run the 7 AI agents and produce full 252-column product intelligence.
               </p>
             </div>

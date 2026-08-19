@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Database, Download, Play, RefreshCw, Search, CheckCircle2, AlertCircle, Filter } from 'lucide-react';
+import { Database, Download, Play, RefreshCw, Search } from 'lucide-react';
 
 export default function BatchProcessing({ onFetchSampleBatch, onProcessBatch, onExportCsv }) {
   const [items, setItems] = useState([]);
@@ -29,7 +29,6 @@ export default function BatchProcessing({ onFetchSampleBatch, onProcessBatch, on
     setIsBatchProcessing(true);
     setProgress(10);
     
-    // Simulate real-time progress update
     const interval = setInterval(() => {
       setProgress(prev => (prev < 90 ? prev + 20 : prev));
     }, 150);
@@ -61,33 +60,33 @@ export default function BatchProcessing({ onFetchSampleBatch, onProcessBatch, on
   });
 
   return (
-    <div className="animate-slide-up" style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+    <div className="animate-slide-up" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
       
-      {/* Header Banner */}
-      <div className="glass-panel" style={{ padding: '24px 32px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      {/* Header Banner - Responsive Stacking */}
+      <div className="glass-panel banner-flex">
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px', flexWrap: 'wrap' }}>
             <Database size={24} style={{ color: 'var(--accent-cyan)' }} />
-            <h2 style={{ fontSize: '1.5rem', fontWeight: '700' }}>Catalog Batch Processing Engine</h2>
-            <span className="badge badge-success">1,000 Catalog Items</span>
+            <h2 style={{ fontSize: '1.4rem', fontWeight: '700' }}>Catalog Batch Engine</h2>
+            <span className="badge badge-emerald">1,000 Items</span>
           </div>
-          <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-            Scale enriched product intelligence across large industrial distributor catalogs with autonomous validation.
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.88rem' }}>
+            Scale enriched product intelligence across large distributor catalogs with autonomous validation.
           </p>
         </div>
 
-        <div style={{ display: 'flex', gap: '12px' }}>
+        <div className="action-group">
           <button className="btn btn-secondary" onClick={loadSampleData} disabled={isLoading || isBatchProcessing}>
             <RefreshCw size={16} className={isLoading ? 'pulse-glow' : ''} /> Reload Samples
           </button>
           
           <button className="btn btn-primary" onClick={handleRunBatch} disabled={isBatchProcessing || items.length === 0}>
-            <Play size={16} /> Run Batch Pipeline ({items.length} Items)
+            <Play size={16} /> Run Batch Pipeline ({items.length})
           </button>
 
           {enrichedResults.length > 0 && (
             <button className="btn btn-secondary" onClick={handleExport} style={{ background: 'rgba(16, 185, 129, 0.15)', borderColor: 'rgba(16, 185, 129, 0.4)', color: 'var(--accent-emerald)' }}>
-              <Download size={16} /> Download 252-Col Delivery CSV
+              <Download size={16} /> Download 252-Col CSV
             </button>
           )}
         </div>
@@ -95,7 +94,7 @@ export default function BatchProcessing({ onFetchSampleBatch, onProcessBatch, on
 
       {/* Progress Bar */}
       {isBatchProcessing && (
-        <div className="glass-panel" style={{ padding: '16px 24px' }}>
+        <div className="glass-panel" style={{ padding: '16px 20px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.85rem' }}>
             <span>Processing Batch Catalog Rows...</span>
             <span style={{ fontWeight: '700', color: 'var(--primary)' }}>{progress}%</span>
@@ -110,30 +109,30 @@ export default function BatchProcessing({ onFetchSampleBatch, onProcessBatch, on
       <div className="grid-4">
         <div className="glass-card">
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Total Items Loaded</div>
-          <div style={{ fontSize: '1.8rem', fontWeight: '800', color: '#fff' }}>{items.length}</div>
+          <div style={{ fontSize: '1.7rem', fontWeight: '800', color: '#fff' }}>{items.length}</div>
         </div>
         
         <div className="glass-card">
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Enriched Rows</div>
-          <div style={{ fontSize: '1.8rem', fontWeight: '800', color: 'var(--accent-cyan)' }}>{enrichedResults.length}</div>
+          <div style={{ fontSize: '1.7rem', fontWeight: '800', color: 'var(--accent-cyan)' }}>{enrichedResults.length}</div>
         </div>
 
         <div className="glass-card">
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Average Confidence</div>
-          <div style={{ fontSize: '1.8rem', fontWeight: '800', color: 'var(--accent-emerald)' }}>
+          <div style={{ fontSize: '1.7rem', fontWeight: '800', color: 'var(--accent-emerald)' }}>
             {enrichedResults.length > 0 ? '97.2%' : '—'}
           </div>
         </div>
 
         <div className="glass-card">
           <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>252 Delivery Columns</div>
-          <div style={{ fontSize: '1.8rem', fontWeight: '800', color: 'var(--accent-purple)' }}>100% Ready</div>
+          <div style={{ fontSize: '1.7rem', fontWeight: '800', color: 'var(--accent-purple)' }}>100% Ready</div>
         </div>
       </div>
 
-      {/* Search & Filter Bar */}
-      <div className="glass-panel" style={{ padding: '16px 24px', display: 'flex', gap: '16px', alignItems: 'center' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, background: 'rgba(0,0,0,0.3)', border: '1px solid var(--glass-border)', borderRadius: 'var(--radius-md)', padding: '8px 16px' }}>
+      {/* Search Bar */}
+      <div className="glass-panel" style={{ padding: '16px 20px', display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flex: 1, minWidth: '240px', background: 'rgba(0,0,0,0.3)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', padding: '8px 14px' }}>
           <Search size={18} style={{ color: 'var(--text-muted)' }} />
           <input
             type="text"
@@ -143,13 +142,13 @@ export default function BatchProcessing({ onFetchSampleBatch, onProcessBatch, on
             style={{ width: '100%', background: 'transparent', border: 'none', color: '#fff', outline: 'none', fontSize: '0.9rem' }}
           />
         </div>
-        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+        <span style={{ fontSize: '0.82rem', color: 'var(--text-muted)' }}>
           Showing {filteredItems.length} of {enrichedResults.length || items.length} records
         </span>
       </div>
 
-      {/* Main Catalog Data Table */}
-      <div className="glass-panel" style={{ padding: '24px' }}>
+      {/* Main Data Table */}
+      <div className="glass-panel" style={{ padding: '20px' }}>
         <div className="table-container">
           <table className="data-table">
             <thead>
@@ -185,7 +184,7 @@ export default function BatchProcessing({ onFetchSampleBatch, onProcessBatch, on
                       {row.Classpath || 'Appliances & Electronics>Built-In'}
                     </td>
                     <td>
-                      <span className={`badge ${conf > 0.9 ? 'badge-success' : 'badge-warning'}`}>
+                      <span className={`badge ${conf > 0.9 ? 'badge-emerald' : 'badge-amber'}`}>
                         {Math.round(conf * 100)}%
                       </span>
                     </td>
